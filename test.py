@@ -16,7 +16,7 @@ now_pri = hbyq.now_price()
 
 
 # 获取网格所在位置
-(pos,pos_pri,up_pri,down_pri) = hbyq.position(close,wangge)
+(pos,pos_pri,up_pri,down_pri) = hbyq.position(now_pri,wangge)
 
 print('now:',now_pri,'pos:',pos,'pos_price',pos_pri, 'up:',up_pri,'down:',down_pri)
 
