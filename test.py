@@ -1,6 +1,5 @@
 import easytrader
 
-
 # 导入华宝油气网格表
 
 f = open("hbyq.txt")             # 返回一个文件对象
@@ -19,4 +18,3 @@ print(hbyq)
 # 设置网格交易量
 amount = 300
 
-#
