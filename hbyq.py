@@ -26,10 +26,10 @@ class hbyq:
         quotation = easyquotation.use( 'sina' )  # 新浪 ['sina'] 腾讯 ['tencent', 'qq']
 
         request =  quotation.real( '162411' )  # 支持直接指定前缀，如 'sh000001'
-        print(request)
+        #print(request)
         now_pri = request['162411']['now']  ## 收盘价
 
-        print('now_pri:',now_pri)
+        #print('now_pri:',now_pri)
         #print(type(close))
         return now_pri
 
