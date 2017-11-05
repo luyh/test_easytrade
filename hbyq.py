@@ -38,8 +38,3 @@ class hbyq:
             if close > wangge[i]:
                 #print( i,wangge[i] )
                 return i,wangge[i],wangge[i-1],wangge[i+1]
-
-
-
-
-

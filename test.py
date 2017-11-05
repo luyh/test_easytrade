@@ -19,7 +19,7 @@ print('close:',close,'pos:',pos,'pos_price',pos_pri, 'up:',up_pri,'down:',down_p
 
 #设置easytrader
 user = easytrader.use('yh_client') # 银河客户端支持 ['yh_client', '银河客户端']
-user.prepare('/path/to/your/yh_client.json') # 配置文件路径
+user.prepare('yh.json') # 配置文件路径
 
 #买入卖出
 user.buy('162411',down_pri,amount)
