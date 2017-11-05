@@ -9,7 +9,7 @@ import easytrader
 
 class hbyq:
     def import_wg():    # 导入网格
-        f = open( "hbyq.txt" )  # 返回一个文件对象
+        f = open( "wangge_data/162411.txt" )  # 返回一个文件对象
 
         lines = f.readlines()  # 读取全部内容
         f.close()
