@@ -1,20 +1,33 @@
 import easytrader
-
-# 导入华宝油气网格表
-
-f = open("hbyq.txt")             # 返回一个文件对象
-
-lines = f.readlines() #读取全部内容
-f.close()
-
-hbyq = []
-
-for i in range(len(lines)):
-    hbyq.append((float(lines[i][:-1])))
-
-print(hbyq)
+from hbyq import hbyq
+import time
+#导入网格
+wangge = hbyq.import_wg()
 
 
 # 设置网格交易量
 amount = 300
+
+#获取行情
+close = hbyq.close_price()
+
+
+# 获取网格所在位置
+(pos,pos_pri,up_pri,down_pri) = hbyq.position(close,wangge)
+
+print('close:',close,'pos:',pos,'pos_price',pos_pri, 'up:',up_pri,'down:',down_pri)
+
+#设置easytrader
+user = easytrader.use('yh_client') # 银河客户端支持 ['yh_client', '银河客户端']
+user.prepare('/path/to/your/yh_client.json') # 配置文件路径
+
+#买入卖出
+user.buy('162411',down_pri,amount)
+time.sleep(5)
+
+user.sell('162411',up_pri,amount)
+time.sleep(5)
+
+#完结
+print("ok")
 
