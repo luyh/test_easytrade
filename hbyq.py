@@ -8,20 +8,6 @@ import easytrader
 
 
 class hbyq:
-    def import_wg():    # 导入网格
-        f = open( "wangge_data/162411.txt" )  # 返回一个文件对象
-
-        lines = f.readlines()  # 读取全部内容
-        f.close()
-
-        hbyq = []
-
-        for i in range( len( lines ) ):
-            hbyq.append( (float( lines[i][:-1] )) )
-
-        # print( (hbyq) )
-        return hbyq
-
     def now_price():  # 获取华宝油气收盘价
         quotation = easyquotation.use( 'sina' )  # 新浪 ['sina'] 腾讯 ['tencent', 'qq']
 
