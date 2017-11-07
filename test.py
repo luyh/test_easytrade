@@ -77,9 +77,9 @@ for _stock in stock:
 print('trade',trade)
 
 try:
-    import easystockr
-    # 设置easystockr,需在windows下安装银河客户端，详见easystockr说明
-    user = easystockr.use( 'yh_client' )  # 银河客户端支持 ['yh_client', '银河客户端']
+    import easytrader
+    # 设置easytrader,需在windows下安装银河客户端，详见easystockr说明
+    user = easytrader.use( 'yh_client' )  # 银河客户端支持 ['yh_client', '银河客户端']
     user.prepare( 'yh.json' )  # 配置文件路径
 except:
     print(u'请检查客户端或easystockr设置')
@@ -97,6 +97,10 @@ def key_enter():
     win32api.keybd_event( 13, 0, 0, 0 )  # enter键位码是13
     win32api.keybd_event( 13, 0, win32con.KEYEVENTF_KEYUP, 0 )  # 释放按键
     time.sleep( 0.2 )
+    win32api.keybd_event( 13, 0, 0, 0 )  # enter键位码是13
+    win32api.keybd_event( 13, 0, win32con.KEYEVENTF_KEYUP, 0 )  # 释放按键
+    time.sleep( 0.2 )
+    
 
 # 买入卖出
 try:
