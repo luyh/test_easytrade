@@ -33,9 +33,9 @@ import easyquotation
 quotation = easyquotation.use( 'sina' )  # 新浪 ['sina'] 腾讯 ['tencent', 'qq']
 
 now_pri={
-    '162411': 0,
-    '512880': 0,
-    '159915': 0,
+    '162411': -1,
+    '512880': -1,
+    '159915': -1,
 }
 
 
@@ -50,9 +50,9 @@ print('now_pri',now_pri)
 # 获取网格所在位置
 
 position ={
-    '162411': 0,
-    '512880': 0,
-    '159915': 0,
+    '162411': -1,
+    '512880': -1,
+    '159915': -1,
 }
 
 for _stock in stock:
@@ -65,9 +65,9 @@ print('position',position)
 
 # 下单网格价
 trade = {
-    '162411': {'buy':0,'sell':0},
-    '512880': {'buy':0,'sell':0},
-    '159915': {'buy':0,'sell':0},
+    '162411': {'buy':-1,'sell':-1},
+    '512880': {'buy':-1,'sell':-1},
+    '159915': {'buy':-1,'sell':-1},
 }
 
 for _stock in stock:
