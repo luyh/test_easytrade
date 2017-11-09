@@ -1,7 +1,9 @@
 # 网格策略（半）自动下单
 自动获取股票收盘价，依据网格策略，自动下单。
 
-
+## BUG
+网格买卖逻辑存问题，详见https://mp.weixin.qq.com/s?__biz=MzI3NjQyMzIxNA==&mid=2247487871&idx=1&sn=c743852f901591b3d5f620fe3c724430&scene=0#wechat_redirect
+未修复
 
 ## 网格策略
 网格表数据来源即来自网格策略来自公众号：[股市药丸](http://weixin.sogou.com/weixin?type=1&s_from=input&query=%E8%82%A1%E5%B8%82%E8%8D%AF%E4%B8%B8&ie=utf8&_sug_=y&_sug_type_=&w=01019900&sut=11768&sst0=1506520645458&lkt=7%2C1506520634975%2C1506520645356)，关注公众号回复关键字“**网格**”，可查看策略。
