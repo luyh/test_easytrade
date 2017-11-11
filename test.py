@@ -119,7 +119,7 @@ try:
     import easytrader
     # 设置easytrader,需在windows下安装银河客户端，详见easystockr说明
     user = easytrader.use( 'yh_client' )  # 银河客户端支持 ['yh_client', '银河客户端']
-    user.prepare( 'yh.json' )  # 配置文件路径
+    user.prepare( 'users/yh.json' )  # 配置文件路径
 except:
     print(u'请检查客户端或easystockr设置')
 
