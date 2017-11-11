@@ -1,5 +1,8 @@
 import time
 import pandas as pd
+import json
+
+debug = 0
 
 stock = ['162411','512880','159915']
 #网格数据，参考numbers文件
@@ -11,37 +14,23 @@ data = {
 
 }
 
-d = {
-        '162411':pd.Series(data['162411']),#华宝油气
-        '512880':pd.Series(data['512880']),#证券
-        '159915':pd.Series(data['159915']),#创业板
-    }
+with open( 'data.json',"w" ) as json_file:
+    data = json.dump( data,json_file )
 
-df = pd.DataFrame(d)
-
-print(u'网格表:',df)
+print(data)
 
 
-trade = {
-    '162411':{
-        'amount':300,
-    },
-    '512880':{
-        'amount': 600,
+## 对应DataFrame，发现没必要用DataFrame，用dic即可
+# d = {
+#         '162411':pd.Series(data['162411']),#华宝油气
+#         '512880':pd.Series(data['512880']),#证券
+#         '159915':pd.Series(data['159915']),#创业板
+#     }
+#
+# df = pd.DataFrame(d)
+#
+# print(u'网格表:',df)
 
-    },
-    '159915':{
-        'amount': 600,
-    }
-}
-
-# amount网格交易量
-amount = {
-    '162411':300,
-    '512880':600,
-    '159915':200,
-}
-print('amount',amount)
 
 #获取行情
 import easyquotation
@@ -49,86 +38,116 @@ import easyquotation
 
 quotation = easyquotation.use( 'sina' )  # 新浪 ['sina'] 腾讯 ['tencent', 'qq']
 
-now_pri={
-    '162411': -1,
-    '512880': -1,
-    '159915': -1,
-}
+request_dic = quotation.real( stock )  # 支持直接指定前缀，如 'sh000001'
+print(request_dic)
 
-
-request = quotation.real( stock )  # 支持直接指定前缀，如 'sh000001'
-
-for _stock in stock:
-    now_pri[_stock] = request[_stock]['now']  ## 收盘价
-
-print('now_pri',now_pri)
-
+# request = pd.DataFrame(request_dic)
+# print(request)
 
 # 获取网格所在位置
+## 查表网格交易买卖单价
 
-position ={
+position = {
     '162411': -1,
     '512880': -1,
     '159915': -1,
 }
 
+
 for _stock in stock:
-    for pos in range( len( df[_stock] ) -1):
-        if now_pri[_stock] > df[_stock][pos]:
+    for pos in range( len( data[_stock] )):
+        if request_dic[_stock]['now'] > data[_stock][pos]:
             position[_stock] = pos
             break
 
-print('position',position)
-
-# 下单网格价
-trade = {
-    '162411': {'buy':-1,'sell':-1},
-    '512880': {'buy':-1,'sell':-1},
-    '159915': {'buy':-1,'sell':-1},
-}
-
-for _stock in stock:
-    trade[_stock]['buy'] = ('%.3f' % df[_stock][position[_stock]+1])
-    trade[_stock]['sell'] = ('%.3f' % (df[_stock][position[_stock] - 1]))
-
-print('trade',trade)
-
-try:
-    import easytrader
-    # 设置easytrader,需在windows下安装银河客户端，详见easystockr说明
-    user = easytrader.use( 'yh_client' )  # 银河客户端支持 ['yh_client', '银河客户端']
-    user.prepare( 'yh.json' )  # 配置文件路径
-except:
-    print(u'请检查客户端或easystockr设置')
+print( 'position', position )
 
 
-# 自动下单失灵，为下单，引入回车确认下单
-try:
-    import win32api
-    import win32con
-except(ImportError):
-    print(u'自动下单失灵，为下单，引入回车确认下单')
-    print( u'加载win32api异常：ModuleNotFoundError: No module named \'win32api\'' )
+if debug:
 
-def key_enter():
-    win32api.keybd_event( 13, 0, 0, 0 )  # enter键位码是13
-    win32api.keybd_event( 13, 0, win32con.KEYEVENTF_KEYUP, 0 )  # 释放按键
-    time.sleep( 0.2 )
-    win32api.keybd_event( 13, 0, 0, 0 )  # enter键位码是13
-    win32api.keybd_event( 13, 0, win32con.KEYEVENTF_KEYUP, 0 )  # 释放按键
-    time.sleep( 0.2 )
-    
+    # 初始化交易数据
+    trade_dic = {
+        '162411':{
+            'amount':300,
+            # 'buy': ,
+            # 'sell': ,
+        },
+        '512880':{
+            'amount': 600,
 
-# 买入卖出
-try:
+
+        },
+        '159915':{
+            'amount': 200,
+
+        }
+    }
+
+    trade  = pd.DataFrame(trade_dic)
+    print(trade)
+    print(trade.columns[0][:])
+
+
+if debug:
     for _stock in stock:
-        user.buy( _stock, trade[_stock]['buy'], amount[_stock] )
-        key_enter()
+        now_pri[_stock] = request[_stock]['now']  ## 收盘价
 
-        user.sell( _stock, trade[_stock]['sell'], amount[_stock] )
-        key_enter()
-except:
-    print(u'下单异常')
-else:
-    print(u'网格已成功下单')
+    print('now_pri',now_pri)
+
+
+
+
+
+
+    # 下单网格价
+    trade = {
+        '162411': {'buy':-1,'sell':-1},
+        '512880': {'buy':-1,'sell':-1},
+        '159915': {'buy':-1,'sell':-1},
+    }
+
+    for _stock in stock:
+        trade[_stock]['buy'] = ('%.3f' % df[_stock][position[_stock]+1])
+        trade[_stock]['sell'] = ('%.3f' % (df[_stock][position[_stock] - 1]))
+
+    print('trade',trade)
+
+    try:
+        import easytrader
+        # 设置easytrader,需在windows下安装银河客户端，详见easystockr说明
+        user = easytrader.use( 'yh_client' )  # 银河客户端支持 ['yh_client', '银河客户端']
+        user.prepare( 'yh.json' )  # 配置文件路径
+    except:
+        print(u'请检查客户端或easystockr设置')
+
+
+    # 自动下单失灵，为下单，引入回车确认下单
+    try:
+        import win32api
+        import win32con
+    except(ImportError):
+        print(u'自动下单失灵，为下单，引入回车确认下单')
+        print( u'加载win32api异常：ModuleNotFoundError: No module named \'win32api\'' )
+
+    def key_enter():
+        win32api.keybd_event( 13, 0, 0, 0 )  # enter键位码是13
+        win32api.keybd_event( 13, 0, win32con.KEYEVENTF_KEYUP, 0 )  # 释放按键
+        time.sleep( 0.2 )
+        win32api.keybd_event( 13, 0, 0, 0 )  # enter键位码是13
+        win32api.keybd_event( 13, 0, win32con.KEYEVENTF_KEYUP, 0 )  # 释放按键
+        time.sleep( 0.2 )
+
+
+    # 买入卖出
+    try:
+        for _stock in stock:
+            user.buy( _stock, trade[_stock]['buy'], amount[_stock] )
+            key_enter()
+
+            user.sell( _stock, trade[_stock]['sell'], amount[_stock] )
+            key_enter()
+    except:
+        print(u'下单异常')
+    else:
+        print(u'网格已成功下单')
 
