@@ -14,7 +14,10 @@
 
 所谓半自动，是还需要人工处理少许错误或核对下单结果，确保无误。
 
-##Dependence:
+## 简化假设
+- 网格一天只触发一次（当然这个前提不是每天都成立）
+
+## Dependence:
 
 - [easytrader](https://github.com/shidenggui/easytrader)：
 在windows下安装银河客户端，配置帐号，实现自动化交易
@@ -31,10 +34,6 @@
 5. 调用easytrader实现下单
 
 ## 效果截图
-![](https://ooo.0o0.ooo/2017/11/08/5a03240a8e514.png)
-
-![](https://i.loli.net/2017/11/08/5a0324426d557.png)
-
 
 
 ## 遇到的问题
